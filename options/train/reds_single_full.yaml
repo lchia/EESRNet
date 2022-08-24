@@ -1,0 +1,64 @@
+# generate settings
+name: single
+gpu_ids: [1]
+train: ~
+
+# datasets
+datasets:
+  train:
+    dataroot_HR: data/REDS/train/train_sharp
+    dataroot_LR: data/REDS/train/train_sharp_bicubic/X4
+    filename_path: data/REDS_train.txt
+    filename_tmpl: 08d
+    filename_ext: png 
+    batch_size: 16
+    patch_size: 64
+    temporal_size: 7
+    first_k: ~
+    temporal_type: single
+    combine_channel_temporal: True
+    flip: true
+    rot: true
+    enlarge_times: 5
+  val:
+    dataroot_HR: data/REDS/val/val_sharp
+    dataroot_LR: data/REDS/val/val_sharp_bicubic/X4
+    filename_path: data/REDS_val.txt
+    filename_tmpl: 08d
+    filename_ext: png
+    temporal_size: 7
+    first_k: ~
+    temporal_type: single
+    combine_channel_temporal: True
+    enlarge_times: 1
+
+# networks
+networks:
+  which_model: single
+  scale: 4
+  in_channels: 3
+  num_fea: 28
+  m: 4
+  out_channels: 3
+
+# path to save
+paths:
+  experiment_root: ./experiments/training
+
+# optimizer
+solver:
+  lr: !!float 6e-4
+  lr_steps:
+    - 20
+    - 40
+    - 60
+    - 80
+  lr_gamma: !!float 0.5
+  loss: mae
+  epochs: 100
+  workers: 8
+  val_step: 1
+  resume: ~
+  resume_path: ~
+  qat: ~
+  qat_path: ~
